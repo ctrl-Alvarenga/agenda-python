@@ -10,7 +10,8 @@ Menu:
 [2] LISTAR CONTATO
 [3] DELETAR CONTATO
 [4] BUSCAR CONTATO PELO NOME
-[5] SAIR
+[5] ATUALIZAR CONTATO
+[6] SAIR
 
 ======================================================
 Escolha uma opção: \n''')
@@ -24,6 +25,8 @@ Escolha uma opção: \n''')
             elif opcao == "4":
                 buscarCnttID()
             elif opcao == "5":
+                atualizarCntt()
+            elif opcao == "6":
                 print("Programa encerrado")
                 break
             else:
@@ -56,15 +59,12 @@ def listarContato():
 def deletarContato():
     print('Deletar contato')
     nomeDel = input("Digite o nome do contato para ser deletado: ")
-    
-    # Lê todos os contatos
+
     with open(r"C:\Users\rafae\OneDrive\Documentos\Pessoal\programacao\projeto_agenda_py\agenda.txt", "r", encoding="utf-8") as agenda:
         linhas = agenda.readlines()
     
-    # Filtra os contatos que não contêm o nome
     novas_linhas = [linha for linha in linhas if nomeDel not in linha]
 
-    # Reescreve o arquivo sem o contato deletado
     with open(r"C:\Users\rafae\OneDrive\Documentos\Pessoal\programacao\projeto_agenda_py\agenda.txt", "w", encoding="utf-8") as agenda:
         agenda.writelines(novas_linhas)
 
@@ -82,6 +82,30 @@ def buscarCnttID():
         if nome in contato.split(";")[1]:
             print(contato)
     agenda.close()
+    fecharPrograma()
+
+def atualizarCntt():
+    nomeDel = input("Digite o nome do contato para ser deletado: ")
+
+    with open(r"C:\Users\rafae\OneDrive\Documentos\Pessoal\programacao\projeto_agenda_py\agenda.txt", "r", encoding="utf-8") as agenda:
+        linhas = agenda.readlines()
+    
+    novas_linhas = [linha for linha in linhas if nomeDel not in linha]
+
+    with open(r"C:\Users\rafae\OneDrive\Documentos\Pessoal\programacao\projeto_agenda_py\agenda.txt", "w", encoding="utf-8") as agenda:
+        agenda.writelines(novas_linhas)
+    
+    id = input("Digite o ID do contato atualizado: ")
+    nome = input("Digite o nome do seu contato atualizado: ")
+    tel = input("Digite o telefone do seu contato atualizado: ")
+    email = input("Digite o email do seu contato atualizado: ")
+    try:
+        agenda = open(r"C:\Users\rafae\OneDrive\Documentos\Pessoal\programacao\projeto_agenda_py\agenda.txt", "a", encoding="utf-8")
+        dados = f'{id};{nome};{tel};{email}\n'
+        agenda.write(dados)
+        print('Contato atualizado com sucesso.')
+    except Exception as e:
+        print("Erro na atualização do contato:", e)
     fecharPrograma()
 
 def fecharPrograma():
